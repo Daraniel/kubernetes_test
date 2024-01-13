@@ -1,7 +1,7 @@
-from server.utils.logger import setup_logging
+from utils.logger import setup_logging
 
 # default logging configuration file, used if logging environment variable is not set and/or Uvicorn  logging is not set
-default_log_configuration = './../../configs/log_conf.yaml'
+default_log_configuration = './configs/log_conf.yaml'
 setup_logging(default_log_configuration)
 
 import logging
@@ -14,9 +14,9 @@ from fastapi_responses import custom_openapi
 from sqlalchemy.exc import DatabaseError
 from typing_extensions import Annotated
 
-from server.utils.data_types import User, Token, InventoryItem
-from server.utils.database_manager import DatabaseManager, get_db
-from server.utils.user_manager import get_current_active_user, get_user_access_token, get_password_hash
+from utils.data_types import User, Token, InventoryItem
+from utils.database_manager import DatabaseManager, get_db
+from utils.user_manager import get_current_active_user, get_user_access_token, get_password_hash
 
 logger = logging.getLogger(__name__)
 app = FastAPI(title='Kubernetes Test',

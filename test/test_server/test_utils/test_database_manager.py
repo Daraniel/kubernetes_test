@@ -2,13 +2,14 @@ import os
 import tempfile
 import unittest
 
-from server.utils.database_manager import DatabaseManager, UserTable, InventoryItemTable
-
 
 class TestUserDatabase(unittest.TestCase):
     def setUp(self):
         # Create a temporary database file for testing
         self.temp_db_fd, self.temp_db_path = tempfile.mkstemp()
+        os.environ['DATABASE'] = self.temp_db_path
+        from utils.database_manager import DatabaseManager
+
         self.db_manager = DatabaseManager(database_name=self.temp_db_path)
 
     def tearDown(self):
@@ -61,6 +62,7 @@ class TestUserDatabase(unittest.TestCase):
         self.assertEqual(len(self.db_manager.get_all_users()), 3)
 
     def test_get_user_by_username(self):
+        from utils.database_manager import UserTable
         # Test retrieving an existing user by username
         existing_user = UserTable(username='existinguser', full_name='Existing UserTable',
                                   email='existinguser@example.com',
@@ -142,6 +144,9 @@ class TestInventoryItemDatabase(unittest.TestCase):
     def setUp(self):
         # Create a temporary database file for testing
         self.temp_db_fd, self.temp_db_path = tempfile.mkstemp()
+        os.environ['DATABASE'] = self.temp_db_path
+        from utils.database_manager import DatabaseManager
+
         self.db_manager = DatabaseManager(database_name=self.temp_db_path)
 
     def tearDown(self):
@@ -169,6 +174,8 @@ class TestInventoryItemDatabase(unittest.TestCase):
         self.assertTrue(self.db_manager.item_exists('Item 10'))
 
     def test_get_item_by_name(self):
+        from utils.database_manager import InventoryItemTable
+
         # Test retrieving an existing item by item_id
         existing_item = InventoryItemTable(item_id=10, name='Item 10', owner=1, description='Description 1', price=10.0)
         with self.db_manager.Session() as session:
@@ -189,6 +196,8 @@ class TestInventoryItemDatabase(unittest.TestCase):
         self.assertEqual(item.price, 10.0)
 
     def test_get_items_by_owner(self):
+        from utils.database_manager import InventoryItemTable
+
         # Test retrieving items by owner
         item1 = InventoryItemTable(item_id=10, name='Item 10', owner=1, description='Description 1', price=10.0)
         item2 = InventoryItemTable(item_id=20, name='Item 20', owner=1, description='Description 2', price=20.0)
@@ -218,6 +227,8 @@ class TestInventoryItemDatabase(unittest.TestCase):
         self.assertEqual(items[3].price, 20.0)
 
     def test_delete_item(self):
+        from utils.database_manager import InventoryItemTable
+
         # Test deleting an existing item
         item = InventoryItemTable(item_id=10, name='Item 10', owner=1, description='Description 1', price=10.0)
         with self.db_manager.Session() as session:
@@ -231,6 +242,8 @@ class TestInventoryItemDatabase(unittest.TestCase):
         self.assertFalse(self.db_manager.item_exists('Item 10'))
 
     def test_remove_user_cascades_to_items(self):
+        from utils.database_manager import UserTable, InventoryItemTable
+
         item = UserTable(id=10, username='testuser', full_name='Test UserTable', email='testuser@example.com',
                          hashed_password='testpassword', disabled=False, is_admin=True)
         with self.db_manager.Session() as session:

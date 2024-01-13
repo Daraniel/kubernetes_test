@@ -5,7 +5,7 @@ from sqlalchemy import create_engine, Column, String, Boolean, Integer, MetaData
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Mapped, mapped_column, relationship, backref
 
-from server.utils.constants import DATABASE
+from utils.constants import DATABASE
 
 logger = logging.getLogger(__name__)
 Base = declarative_base()

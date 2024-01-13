@@ -7,10 +7,10 @@ from jose import JWTError, jwt
 from passlib.context import CryptContext
 from typing_extensions import Annotated
 
-from server.utils.constants import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
-from server.utils.data_types import TokenData, User
-from server.utils.data_types import UserInDB
-from server.utils.database_manager import DatabaseManager, get_db
+from utils.constants import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
+from utils.data_types import TokenData, User
+from utils.data_types import UserInDB
+from utils.database_manager import DatabaseManager, get_db
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")

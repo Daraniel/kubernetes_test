@@ -1,4 +1,6 @@
 import contextlib
+import os
+import tempfile
 import threading
 import time
 import unittest
@@ -37,7 +39,9 @@ def setup_with_context_manager(testcase, cm):
 # A simple test that only tests the bare minimum, this is not a real app after all...
 class TestServer(unittest.TestCase):
     def setUp(self):
-        config = uvicorn.Config("server.server_main:app")
+        self.temp_db_fd, self.temp_db_path = tempfile.mkstemp()
+        os.environ['DATABASE'] = self.temp_db_path
+        config = uvicorn.Config("server_main:app")
         self.client = httpx.Client()
         self.server = Server(config=config)
         setup_with_context_manager(self, self.server.run_in_thread())  # let's use the wierd thingy
@@ -46,6 +50,12 @@ class TestServer(unittest.TestCase):
 
     def tearDown(self):
         self.client.close()
+        # Close and remove the temporary database file
+        os.close(self.temp_db_fd)
+        try:
+            os.unlink(self.temp_db_path)
+        except Exception:
+            pass  # folder sometimes gets auto removed
 
     def get_access_token(self):
         if self.token is None:

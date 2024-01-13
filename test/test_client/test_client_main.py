@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 import httpx
 
-from client.client_main import Client
+from client_main import Client
 
 
 class TestClient(unittest.TestCase):
