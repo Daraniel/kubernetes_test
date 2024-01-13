@@ -1,0 +1,1045 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Kubernetes Test",
+    "description": "Test server with FastAPI that has user management system and user inventory",
+    "version": "1.0"
+  },
+  "paths": {
+    "/token": {
+      "post": {
+        "summary": "Login For Access Token",
+        "operationId": "login_for_access_token_token_post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_login_for_access_token_token_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/users/me/": {
+      "get": {
+        "summary": "Get Users Me",
+        "operationId": "get_users_me_user_users_me__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/admin/users/add_user/": {
+      "get": {
+        "summary": "Add User",
+        "operationId": "add_user_admin_users_add_user__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          },
+          {
+            "name": "full_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Full Name"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Email"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Password"
+            }
+          },
+          {
+            "name": "disabled",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Disabled"
+            }
+          },
+          {
+            "name": "is_admin",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false,
+              "title": "Is Admin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Only admin users can create new users."
+          }
+        }
+      }
+    },
+    "/admin/users/get_all_users/": {
+      "get": {
+        "summary": "Get All Users",
+        "operationId": "get_all_users_admin_users_get_all_users__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  },
+                  "type": "array",
+                  "title": "Response Get All Users Admin Users Get All Users  Get"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Only admin users can see other users."
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/admin/users/delete_user/": {
+      "get": {
+        "summary": "Delete User",
+        "operationId": "delete_user_admin_users_delete_user__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Only admin users can remove users."
+          }
+        }
+      }
+    },
+    "/admin/users/deactivate_user/": {
+      "get": {
+        "summary": "Deactivate User",
+        "operationId": "deactivate_user_admin_users_deactivate_user__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Only admin users can disable users."
+          }
+        }
+      }
+    },
+    "/admin/users/activate_user/": {
+      "get": {
+        "summary": "Activate User",
+        "operationId": "activate_user_admin_users_activate_user__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Only admin users can enable users."
+          }
+        }
+      }
+    },
+    "/admin/users/promote_user/": {
+      "get": {
+        "summary": "Promote User",
+        "operationId": "promote_user_admin_users_promote_user__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Only admin users can make users admin."
+          }
+        }
+      }
+    },
+    "/admin/users/demote_user/": {
+      "get": {
+        "summary": "Demote User",
+        "operationId": "demote_user_admin_users_demote_user__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Username"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Only admin users can make users admin."
+          }
+        }
+      }
+    },
+    "/user/items/add_own_item/": {
+      "get": {
+        "summary": "Add Own Item",
+        "operationId": "add_own_item_user_items_add_own_item__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "item_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Item Name"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Description"
+            }
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "title": "Price"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/items/add_item/": {
+      "get": {
+        "summary": "Add Item",
+        "operationId": "add_item_admin_items_add_item__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "item_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Item Name"
+            }
+          },
+          {
+            "name": "user_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Name"
+            }
+          },
+          {
+            "name": "description",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Description"
+            }
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "number",
+              "title": "Price"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Only admin users can create item for another user."
+          },
+          "403": {
+            "description": "User name not found."
+          }
+        }
+      }
+    },
+    "/user/items/delete_own_item/": {
+      "get": {
+        "summary": "Delete Own Item",
+        "operationId": "delete_own_item_user_items_delete_own_item__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "item_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Item Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Item doesn't belong to the user."
+          }
+        }
+      }
+    },
+    "/admin/items/delete_item/": {
+      "get": {
+        "summary": "Delete Item",
+        "operationId": "delete_item_admin_items_delete_item__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "item_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Item Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/items/get_own_item_by_name/": {
+      "get": {
+        "summary": "Get Own Item By Name",
+        "operationId": "get_own_item_by_name_user_items_get_own_item_by_name__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "item_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Item Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryItem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Item doesn't belong to the user."
+          }
+        }
+      }
+    },
+    "/admin/items/get_item_by_name/": {
+      "get": {
+        "summary": "Get Item By Name",
+        "operationId": "get_item_by_name_admin_items_get_item_by_name__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "item_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Item Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InventoryItem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Only admin users can see other user's items."
+          }
+        }
+      }
+    },
+    "/user/items/get_own_items/": {
+      "get": {
+        "summary": "Get Own Items",
+        "operationId": "get_own_items_user_items_get_own_items__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/InventoryItem"
+                  },
+                  "type": "array",
+                  "title": "Response Get Own Items User Items Get Own Items  Get"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/admin/items/get_items/": {
+      "get": {
+        "summary": "Get Items",
+        "operationId": "get_items_admin_items_get_items__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "user_name",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Name"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InventoryItem"
+                  },
+                  "title": "Response Get Items Admin Items Get Items  Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Only admin users get other user's items."
+          },
+          "403": {
+            "description": "User name not found."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_login_for_access_token_token_post": {
+        "properties": {
+          "grant_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "password"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grant Type"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password"
+          },
+          "scope": {
+            "type": "string",
+            "title": "Scope",
+            "default": ""
+          },
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "client_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Secret"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "Body_login_for_access_token_token_post"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "InventoryItem": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "price": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "InventoryItem"
+      },
+      "Token": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "token_type"
+        ],
+        "title": "Token"
+      },
+      "User": {
+        "properties": {
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "full_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Full Name"
+          },
+          "disabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Disabled",
+            "default": false
+          },
+          "is_admin": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Admin",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "username"
+        ],
+        "title": "User"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "token"
+          }
+        }
+      }
+    }
+  }
+}

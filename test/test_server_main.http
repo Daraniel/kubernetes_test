@@ -1,0 +1,68 @@
+### some simple tests, remmember to start the server before running them! ###
+
+
+###
+# POST /token/
+# check login works, this test is the prerequisite for the rest of the tests
+###
+
+POST http://localhost:8000/token
+Content-Type: application/x-www-form-urlencoded
+
+username = johndoe &
+password = secret
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.global.set("access_token", response.body.access_token); // store the access token in the global context
+%}
+
+###
+# GET /user/users/me/
+# check the user can be retrieved
+###
+
+GET http://localhost:8000/user/users/me/
+Accept: application/json
+Authorization: Bearer {{access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Correct response body", function () {
+        client.assert(response.body.username === "johndoe");
+        client.assert(response.body.email === "johndoe@example.com");
+        client.assert(response.body.full_name === "John Doe");
+        client.assert(response.body.disabled === false);
+        client.assert(response.body.is_admin === true);
+    });
+%}
+
+###
+# GET /user/items/get_own_items/
+# check items can be retrieved
+###
+
+GET http://localhost:8000/user/items/get_own_items/
+Authorization: Bearer {{access_token}}
+
+> {%
+    client.test("Request executed successfully", function () {
+        client.assert(response.status === 200, "Response status is not 200");
+    });
+
+    client.test("Correct response body", function () {
+        client.assert(response.body[0].name === "Item 1");
+        client.assert(response.body[0].description === "Description 1");
+        client.assert(response.body[0].price === 10.0);
+
+        client.assert(response.body[1].name === "Item 2");
+        client.assert(response.body[1].description === "Description 2");
+        client.assert(response.body[1].price === 20.0);
+    });
+%}
