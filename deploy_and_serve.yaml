@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastapi-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fastapi-server
+  template:
+    metadata:
+      labels:
+        app: fastapi-server
+    spec:
+      containers:
+        - name: fastapi-server
+          image: daraniel/kubernetes-test-server:latest
+
+#          image: docker:latest
+#          command: [ "sh", "-c", "cd /app && docker build -t my-image. && docker push my-image" ]
+#          volumeMounts:
+#            - name: app-volume
+#              mountPath: /app
+
+          ports:
+            - containerPort: 8000
+          env:
+            - name: ACCESS_TOKEN_EXPIRE_MINUTES
+              value: "30"
+            - name: SECRET_KEY
+              value: "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
+            - name: DATABASE
+              value: "./database.db"
+#          volumeMounts:
+#            - name: server-volume
+#              mountPath: /app
+#      volumes:
+#        - name: server-volume
+#          hostPath:
+#            path: "./src/server"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastapi-server
+spec:
+  selector:
+    app: fastapi-server
+  ports:
+    - name: http
+      port: 8000
+      targetPort: 8000
+      nodePort: 30007
+#  type: ClusterIP
+  type: NodePort
+#  type: LoadBalancer
