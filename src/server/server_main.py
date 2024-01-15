@@ -246,6 +246,13 @@ async def get_items(
     return [InventoryItem(**item.__dict__) for item in db.get_items_by_owner(user.id)]
 
 
+@app.get("/")
+def read_main(request: Request):
+    # return something when accessing the root directory, can be useful for debugging
+    return {"message": "Hello World", "root_path": request.scope.get("root_path"),
+            "docs_path": request.scope.get("root_path") + "/docs"}
+
+
 if __name__ == "__main__":
     # access the docs at http://127.0.0.1:8000/docs
     uvicorn.run(app, host="0.0.0.0", port=8000, log_config=default_log_configuration)

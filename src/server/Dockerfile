@@ -10,4 +10,4 @@ RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 
 ADD . /app
 
-CMD ["uvicorn", "server_main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "server_main:app", "--proxy-headers", "--host", "0.0.0.0", "--port", "8000"]

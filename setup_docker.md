@@ -27,3 +27,9 @@ then if needed, you can pull the image as follows:
 ```bash
 docker compose pull 
 ```
+
+or 
+
+```bash
+docker pull daraniel/kubernetes-test-server
+```

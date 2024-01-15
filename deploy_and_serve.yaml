@@ -15,13 +15,7 @@ spec:
       containers:
         - name: fastapi-server
           image: daraniel/kubernetes-test-server:latest
-
-#          image: docker:latest
-#          command: [ "sh", "-c", "cd /app && docker build -t my-image. && docker push my-image" ]
-#          volumeMounts:
-#            - name: app-volume
-#              mountPath: /app
-
+          imagePullPolicy: Always
           ports:
             - containerPort: 8000
           env:
@@ -51,6 +45,28 @@ spec:
       port: 8000
       targetPort: 8000
       nodePort: 30007
-#  type: ClusterIP
-  type: NodePort
-#  type: LoadBalancer
+  #  type: ClusterIP
+  #  type: NodePort
+  type: LoadBalancer
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fastapi-server
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-clusterissuer
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - host: fastapi-host.com
+      http:
+        paths:
+          - path: /(/|$)(.*) # or something like /app/v1(/|$)(.*)
+            pathType: Prefix
+#            pathType: ImplementationSpecific # There seems to be some bugs with using Prefix. If it causes problems, try this method
+            backend:
+              service:
+                name: fastapi-server
+                port:
+                  number: 8000
