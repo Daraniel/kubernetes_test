@@ -2,7 +2,8 @@ import unittest
 from unittest.mock import Mock, patch
 
 import httpx
-from client_main import Client
+
+from src.client.client_main import Client
 
 
 class TestClient(unittest.TestCase):

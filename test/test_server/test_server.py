@@ -9,8 +9,6 @@ import unittest
 import httpx
 import uvicorn
 
-sys.path.append("../src/server")
-
 
 class Server(uvicorn.Server):
     def install_signal_handlers(self):
@@ -23,8 +21,17 @@ class Server(uvicorn.Server):
         thread.start()
 
         try:
+            wait = 0
             while not self.started:
                 time.sleep(1e-3)
+                wait += 1
+                if (
+                    wait > 1000
+                ):  # wait for a maximum of one second for the server to start
+                    unittest.TestCase.fail(
+                        unittest.TestCase(),
+                        "Server failed to start in the expected time",
+                    )
             yield
         finally:
             self.should_exit = True
