@@ -1,6 +1,8 @@
 # Kubernetes Test
 
-A sample Python FastAPI application that can be deployed with Docker or Kubernetes.
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+A sample Python FastAPI application that can be deployed with Docker or Kubernetes. The repository contains an auto formatter using Black.
 
 ## Docker setup
 

@@ -274,7 +274,7 @@ Then the forwarded thing can be accessed on that port.
 Another method to access things is using porxy as below but this use case is not explored in this app.
 
 ```bash
- kubectl proxy
+kubectl proxy
 ```
 
 ### Cleanup
