@@ -27,5 +27,4 @@ jobs:
           pip install -r src/server/requirements.txt
       - name: Test with pytest
         run: |
-          export PYTHONPATH=$PYTHONPATH:/src/server
           python -m unittest discover -s ./test  -p 'test_*.py'
