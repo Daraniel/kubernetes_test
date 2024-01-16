@@ -1,5 +1,6 @@
 import contextlib
 import os
+import sys
 import tempfile
 import threading
 import time
@@ -8,6 +9,8 @@ import unittest
 import httpx
 import uvicorn
 
+sys.path.append("../src/server")
+
 
 class Server(uvicorn.Server):
     def install_signal_handlers(self):
@@ -15,6 +18,7 @@ class Server(uvicorn.Server):
 
     @contextlib.contextmanager
     def run_in_thread(self):
+        sys.path.append("./src/server")
         thread = threading.Thread(target=self.run)
         thread.start()
 
@@ -41,7 +45,7 @@ class TestServer(unittest.TestCase):
     def setUp(self):
         self.temp_db_fd, self.temp_db_path = tempfile.mkstemp()
         os.environ["DATABASE"] = self.temp_db_path
-        config = uvicorn.Config("server_main:app")
+        config = uvicorn.Config("server_main:app", root_path="../src/server")
         self.client = httpx.Client()
         self.server = Server(config=config)
         setup_with_context_manager(
