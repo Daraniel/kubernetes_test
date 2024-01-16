@@ -6,10 +6,8 @@ from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from typing_extensions import Annotated
-
-from utils.constants import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
-from utils.data_types import TokenData, User
-from utils.data_types import UserInDB
+from utils.constants import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
+from utils.data_types import TokenData, User, UserInDB
 from utils.database_manager import DatabaseManager, get_db
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -51,8 +49,9 @@ def create_access_token(data: dict, expires_delta: Union[timedelta, None] = None
     return encoded_jwt
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)],
-                           db: DatabaseManager = Depends(get_db)):
+async def get_current_user(
+    token: Annotated[str, Depends(oauth2_scheme)], db: DatabaseManager = Depends(get_db)
+):
     credentials_exception = HTTPException(
         status_code=401,
         detail="Could not validate credentials",
@@ -73,7 +72,7 @@ async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)],
 
 
 async def get_current_active_user(
-        current_user: Annotated[User, Depends(get_current_user)],
+    current_user: Annotated[User, Depends(get_current_user)],
 ):
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
@@ -81,8 +80,8 @@ async def get_current_active_user(
 
 
 async def get_user_access_token(
-        form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-        db: DatabaseManager = Depends(get_db)
+    form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+    db: DatabaseManager = Depends(get_db),
 ):
     user = authenticate_user(db, form_data.username, form_data.password)
     if not user:

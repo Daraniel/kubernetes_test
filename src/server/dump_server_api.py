@@ -3,7 +3,7 @@ import json
 from server_main import app
 
 if __name__ == "__main__":
-    with open('./../../docs/openapi.json', 'w') as f:
+    with open("./../../docs/openapi.json", "w") as f:
         openapi = app.openapi()
         version = openapi.get("openapi", "unknown version")
 

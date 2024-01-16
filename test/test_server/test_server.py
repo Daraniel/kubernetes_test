@@ -40,11 +40,13 @@ def setup_with_context_manager(testcase, cm):
 class TestServer(unittest.TestCase):
     def setUp(self):
         self.temp_db_fd, self.temp_db_path = tempfile.mkstemp()
-        os.environ['DATABASE'] = self.temp_db_path
+        os.environ["DATABASE"] = self.temp_db_path
         config = uvicorn.Config("server_main:app")
         self.client = httpx.Client()
         self.server = Server(config=config)
-        setup_with_context_manager(self, self.server.run_in_thread())  # let's use the wierd thingy
+        setup_with_context_manager(
+            self, self.server.run_in_thread()
+        )  # let's use the wierd thingy
         self.base_url = f"http://{self.server.config.host}:{self.server.config.port}"
         self.token = None
 
@@ -96,5 +98,10 @@ class TestServer(unittest.TestCase):
         response = self.client.get(f"{self.base_url}{endpoint}", headers=headers)
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), [{"name": "Item 1", "description": "Description 1", "price": 10.0},
-                                           {"name": "Item 2", "description": "Description 2", "price": 20.0}])
+        self.assertEqual(
+            response.json(),
+            [
+                {"name": "Item 1", "description": "Description 1", "price": 10.0},
+                {"name": "Item 2", "description": "Description 2", "price": 20.0},
+            ],
+        )
