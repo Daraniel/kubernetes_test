@@ -61,10 +61,6 @@ code by running the following line of code:
 kubectl apply -k ./kubernetes_resources
 ```
 
-```bash
-kubectl delete deployment fastapi-server
-```
-
 Then it can be accessed by creating a tunnel:
 
 ```bash
