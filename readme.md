@@ -4,8 +4,8 @@
 ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
-![UnitTest](https://github.com/github/docs/actions/workflows/python-package.yml/badge.svg)
-![Docker Image Deployed](https://github.com/github/docs/actions/workflows/docker-publish.yml/badge.svg)
+[![UnitTest](https://github.com/Daraniel/kubernetes_test/actions/workflows/python-package.yml/badge.svg)](https://github.com/Daraniel/kubernetes_test/actions/workflows/python-package.yml)
+[![Publish Docker image](https://github.com/Daraniel/kubernetes_test/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/Daraniel/kubernetes_test/actions/workflows/docker-publish.yml)
 
 A sample Python FastAPI application that has user management system and user inventory and can be deployed with Docker
 or Kubernetes. It uses SQLAlchemy to work with both SQLLite (direct execution and execution with docker compose) and
