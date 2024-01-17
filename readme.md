@@ -3,6 +3,7 @@
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![UnitTest](https://github.com/Daraniel/kubernetes_test/actions/workflows/unittest.yml/badge.svg)](https://github.com/Daraniel/kubernetes_test/actions/workflows/unittest.yml)
 [![Publish Docker image](https://github.com/Daraniel/kubernetes_test/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/Daraniel/kubernetes_test/actions/workflows/docker-publish.yml)
 
