@@ -7,10 +7,13 @@ class TestUserDatabase(unittest.TestCase):
     def setUp(self):
         # Create a temporary database file for testing
         self.temp_db_fd, self.temp_db_path = tempfile.mkstemp()
-        os.environ["DATABASE"] = self.temp_db_path
+        database_connection_string = f"sqlite:///{self.temp_db_path}"
+        os.environ["DATABASE_CONNECTION_STRING"] = database_connection_string
         from utils.database_manager import DatabaseManager
 
-        self.db_manager = DatabaseManager(database_name=self.temp_db_path)
+        self.db_manager = DatabaseManager(
+            database_connection_string=database_connection_string
+        )
 
     def tearDown(self):
         # Close and remove the temporary database file
@@ -188,10 +191,13 @@ class TestInventoryItemDatabase(unittest.TestCase):
     def setUp(self):
         # Create a temporary database file for testing
         self.temp_db_fd, self.temp_db_path = tempfile.mkstemp()
-        os.environ["DATABASE"] = self.temp_db_path
+        database_connection_string = f"sqlite:///{self.temp_db_path}"
+        os.environ["DATABASE_CONNECTION_STRING"] = database_connection_string
         from utils.database_manager import DatabaseManager
 
-        self.db_manager = DatabaseManager(database_name=self.temp_db_path)
+        self.db_manager = DatabaseManager(
+            database_connection_string=database_connection_string
+        )
 
     def tearDown(self):
         # Close and remove the temporary database file

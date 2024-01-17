@@ -78,13 +78,13 @@ kubectl create deployment fastapi-server --image=daraniel/kubernetes-test-server
 or use the following command to deploy using a deployment.yaml file:
 
 ```bash
-kubectl apply -f ./deployment.yaml
+kubectl apply -f ./kubernetes_resources/deployment.yaml
 ```
 
 Alternatively, the following command can be used to deploy and serve the image:
 
 ```bash
-kubectl apply -f ./deploy_and_serve.yaml
+kubectl apply -f ./kubernetes_resources/deploy_and_serve.yaml
 ```
 
 View the Deployment:
@@ -129,6 +129,12 @@ View application logs for a container in a pod:
 kubectl logs fastapi-server-5bc57bd589-dqgmr
 ```
 
+SSH into a pod:
+
+```bash
+kubectl exec -it  fastapi-server-5bc57bd589-dqgmr -- bash  
+```
+
 ### Create a Service
 
 Expose the Pod to the public internet:
@@ -140,7 +146,7 @@ kubectl expose deployment fastapi-server --type=LoadBalancer --port=8080
 or alternatively run the following command:
 
 ```bash
-kubectl apply -f ./service.yaml
+kubectl apply -f ./kubernetes_resources/service.yaml
 ```
 
 View the Service:
@@ -201,7 +207,7 @@ choco install openssh --version=8.6.0-beta1 --pre
 Now the code can be deployed using Ingress, in this case, run the following command:
 
 ```bash
-kubectl apply -f ./deploy_and_serve.yaml
+kubectl apply -f ./kubernetes_resources/deploy_and_serve.yaml
 ```
 
 Please note that in this file, we are using the LoadBalancer service type instead of the NodePort used in the
@@ -247,6 +253,12 @@ then setup ingress first then start deploying things. It can be done with the fo
 
 ```bash
 minikube delete  
+```
+
+Ingress, service and deployment can all be deployed together by running the following command:
+
+```bash
+kubectl apply -f ./kubernetes_resources/deploy_and_serve.yaml
 ```
 
 ### Port forwarding

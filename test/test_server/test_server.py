@@ -51,7 +51,7 @@ def setup_with_context_manager(testcase, cm):
 class TestServer(unittest.TestCase):
     def setUp(self):
         self.temp_db_fd, self.temp_db_path = tempfile.mkstemp()
-        os.environ["DATABASE"] = self.temp_db_path
+        os.environ["DATABASE_CONNECTION_STRING"] = f"sqlite:///{self.temp_db_path}"
         config = uvicorn.Config("server_main:app", root_path="../src/server")
         self.client = httpx.Client()
         self.server = Server(config=config)

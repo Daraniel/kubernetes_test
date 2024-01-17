@@ -15,8 +15,11 @@ from sqlalchemy.exc import DatabaseError
 from typing_extensions import Annotated
 from utils.data_types import InventoryItem, Token, User
 from utils.database_manager import DatabaseManager, get_db
-from utils.user_manager import (get_current_active_user, get_password_hash,
-                                get_user_access_token)
+from utils.user_manager import (
+    get_current_active_user,
+    get_password_hash,
+    get_user_access_token,
+)
 
 logger = logging.getLogger(__name__)
 app = FastAPI(
@@ -34,9 +37,14 @@ app.openapi = custom_openapi(app)
 def database_error_handler(_: Request, exc: DatabaseError):
     # Lazily return the error messages created by the DatabaseManager to the user,
     # this is just a test program not a perfect app!
+    # logger.exception("Database error")
+    logger.error(exc, exc_info=True)
     return JSONResponse(
         status_code=422,
-        content={"error": exc.__class__.__name__, "message": exc.args[0]},
+        content={
+            "error": exc.__class__.__name__,
+            "message": exc.args[0],
+        },
     )
 
 

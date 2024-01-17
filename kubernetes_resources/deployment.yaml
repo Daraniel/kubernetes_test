@@ -16,11 +16,11 @@ spec:
         - name: fastapi-server
           image: daraniel/kubernetes-test-server:latest
 
-#          image: docker:latest
-#          command: [ "sh", "-c", "cd /app && docker build -t my-image. && docker push my-image" ]
-#          volumeMounts:
-#            - name: app-volume
-#              mountPath: /app
+          #          image: docker:latest
+          #          command: [ "sh", "-c", "cd /app && docker build -t my-image. && docker push my-image" ]
+          #          volumeMounts:
+          #            - name: app-volume
+          #              mountPath: /app
 
           ports:
             - containerPort: 8000
@@ -29,8 +29,8 @@ spec:
               value: "30"
             - name: SECRET_KEY
               value: "09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
-            - name: DATABASE
-              value: "./database.db"
+            - name: DATABASE_CONNECTION_STRING
+              value: "sqlite:///./database.db"
 #          volumeMounts:
 #            - name: server-volume
 #              mountPath: /app

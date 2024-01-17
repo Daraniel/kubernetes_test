@@ -1,0 +1,7 @@
+secretGenerator:
+  - name: mysql-pass
+    literals:
+      - password=A_PASSWORD_FOR_FASTAPI
+resources:
+  - mysql_deploy_and_serve.yaml
+  - deploy_and_serve_with_mysql.yaml

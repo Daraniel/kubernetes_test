@@ -1,12 +1,20 @@
 import logging
 from typing import List, Union
 
-from sqlalchemy import (Boolean, Column, Float, ForeignKey, Integer, MetaData,
-                        String, create_engine)
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import (Mapped, backref, mapped_column, relationship,
-                            sessionmaker)
-from utils.constants import DATABASE
+from sqlalchemy import (
+    Boolean,
+    Column,
+    Float,
+    ForeignKey,
+    Integer,
+    MetaData,
+    String,
+    create_engine,
+)
+from sqlalchemy.orm import Mapped, backref, mapped_column, relationship, sessionmaker
+from sqlalchemy.orm import declarative_base
+
+from utils.constants import DATABASE_CONNECTION_STRING
 
 logger = logging.getLogger(__name__)
 Base = declarative_base()
@@ -16,10 +24,10 @@ class UserTable(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
-    username = Column(String, unique=True, nullable=False)
-    full_name = Column(String, nullable=False)
-    email = Column(String, nullable=False)
-    hashed_password = Column(String, nullable=False)
+    username = Column(String(256), unique=True, nullable=False)
+    full_name = Column(String(256), nullable=False)
+    email = Column(String(256), nullable=False)
+    hashed_password = Column(String(256), nullable=False)
     disabled = Column(Boolean, default=False)
     is_admin = Column(Boolean, default=False)
 
@@ -34,12 +42,12 @@ class InventoryItemTable(Base):
     __tablename__ = "inventory_items"
 
     item_id = Column(Integer, primary_key=True)
-    name = Column(String, unique=True)
+    name = Column(String(256), unique=True)
     owner: Mapped[int] = mapped_column(ForeignKey("users.id"))
     parent = relationship(
         "UserTable", backref=backref("InventoryItemTable", cascade="all,delete")
     )
-    description = Column(String, nullable=True)
+    description = Column(String(256), nullable=True)
     price = Column(Float, nullable=True)
 
     def __repr__(self):
@@ -50,9 +58,9 @@ class InventoryItemTable(Base):
 
 
 class DatabaseManager:
-    def __init__(self, database_name=DATABASE):
+    def __init__(self, database_connection_string=DATABASE_CONNECTION_STRING):
         self.engine = create_engine(
-            f"sqlite:///{database_name}", echo=False, logging_name=logger.name
+            database_connection_string, echo=True, logging_name=logger.name
         )
         self.metadata = MetaData()
         self.metadata.create_all(self.engine)
