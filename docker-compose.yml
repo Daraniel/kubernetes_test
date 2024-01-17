@@ -3,7 +3,7 @@ name: kubernetes-test
 version: '1.0'
 services:
   server:
-    image: daraniel/kubernetes-test-server:latest
+    image: daraniel/kubernetes-test-server:master
     build: src/server
     container_name: fastapi-server
     environment:

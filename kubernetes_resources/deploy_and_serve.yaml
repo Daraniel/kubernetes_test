@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: fastapi-server
-          image: daraniel/kubernetes-test-server:latest
+          image: daraniel/kubernetes-test-server:master
           imagePullPolicy: Always
           ports:
             - containerPort: 8000

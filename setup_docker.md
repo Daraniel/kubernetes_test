@@ -1,7 +1,8 @@
-Either use docker compose to setup the project which will also create the image or manually create the image using the following line of code:
+Either use docker compose to setup the project which will also create the image or manually create the image using the
+following line of code:
 
 ```bash
-docker build --pull -t daraniel/kubernetes-test-server:latest ./src/server
+docker build --pull -t daraniel/kubernetes-test-server:master ./src/server
 ```
 
 or by running docker compose directly:
@@ -28,7 +29,7 @@ then if needed, you can pull the image as follows:
 docker compose pull 
 ```
 
-or 
+or
 
 ```bash
 docker pull daraniel/kubernetes-test-server

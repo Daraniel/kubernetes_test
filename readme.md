@@ -21,7 +21,7 @@ and [service.yaml](service.yaml) Kubernetes
 deployment config files)
 
 ```bash
-docker build --pull -t daraniel/kubernetes-test-server:latest ./src/server --push
+docker build --pull -t daraniel/kubernetes-test-server:master ./src/server --push
 ```
 
 If you want, you can serve the app with docker compose as follows:

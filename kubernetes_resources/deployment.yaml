@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: fastapi-server
-          image: daraniel/kubernetes-test-server:latest
+          image: daraniel/kubernetes-test-server:master
 
           #          image: docker:latest
           #          command: [ "sh", "-c", "cd /app && docker build -t my-image. && docker push my-image" ]
