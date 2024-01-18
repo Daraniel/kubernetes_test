@@ -3,7 +3,6 @@ import logging.config
 import os
 
 import coloredlogs
-
 from utils.tools import parse_yaml_config
 
 

@@ -1,25 +1,10 @@
 import logging
 from typing import List, Union
 
-from sqlalchemy import (
-    Boolean,
-    Column,
-    Float,
-    ForeignKey,
-    Integer,
-    MetaData,
-    String,
-    create_engine,
-)
-from sqlalchemy.orm import (
-    Mapped,
-    backref,
-    declarative_base,
-    mapped_column,
-    relationship,
-    sessionmaker,
-)
-
+from sqlalchemy import (Boolean, Column, Float, ForeignKey, Integer, MetaData,
+                        String, create_engine)
+from sqlalchemy.orm import (Mapped, backref, declarative_base, mapped_column,
+                            relationship, sessionmaker)
 from utils.constants import DATABASE_CONNECTION_STRING
 
 logger = logging.getLogger(__name__)
