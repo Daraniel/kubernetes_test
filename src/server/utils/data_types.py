@@ -19,16 +19,16 @@ class User(BaseModel):
     disabled: Union[bool, None] = False
     is_admin: Union[bool, None] = False
 
-    class Config:
-        orm_mode = True
+    class ConfigDict:
+        from_attributes = True
 
 
 class UserInDB(User):
     id: int
     hashed_password: str
 
-    class Config:
-        orm_mode = True
+    class ConfigDict:
+        from_attributes = True
 
 
 class InventoryItem(BaseModel):
@@ -36,13 +36,13 @@ class InventoryItem(BaseModel):
     description: Union[str, None] = None
     price: Union[float, None] = None
 
-    class Config:
-        orm_mode = True
+    class ConfigDict:
+        from_attributes = True
 
 
 class InventoryItemInDB(InventoryItem):
     item_id: int
     owner: int
 
-    class Config:
-        orm_mode = True
+    class ConfigDict:
+        from_attributes = True

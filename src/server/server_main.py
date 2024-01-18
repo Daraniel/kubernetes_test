@@ -1,10 +1,12 @@
 from utils.logger import setup_logging
 
-# default logging configuration file, used if logging environment variable is not set and/or Uvicorn  logging is not set
+# default logging configuration file, used if logging environment variable is not set.
 default_log_configuration = "./configs/log_conf.yaml"
+# set up the logger at the beginning so other modules will use the correct logger.
 setup_logging(default_log_configuration)
 
 import logging
+from contextlib import asynccontextmanager
 from typing import List
 
 import uvicorn
@@ -13,16 +15,33 @@ from fastapi.responses import JSONResponse
 from fastapi_responses import custom_openapi
 from sqlalchemy.exc import DatabaseError
 from typing_extensions import Annotated
+
 from utils.data_types import InventoryItem, Token, User
 from utils.database_manager import DatabaseManager, get_db
-from utils.user_manager import (get_current_active_user, get_password_hash,
-                                get_user_access_token)
+from utils.user_manager import (
+    get_current_active_user,
+    get_password_hash,
+    get_user_access_token,
+)
 
 logger = logging.getLogger(__name__)
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # app start
+
+    # set up the logger once again so it can replace and configure uvicorn logger
+    setup_logging(default_log_configuration)
+    yield
+    # app end
+
+
 app = FastAPI(
     title="Kubernetes Test",
     description="Test server with FastAPI that has user management system and user inventory",
     version="1.0",
+    lifespan=lifespan,
 )
 
 # Use auto error api generator provided by fastapi_responses.
@@ -291,4 +310,5 @@ def read_main(request: Request):
 
 if __name__ == "__main__":
     # access the docs at http://127.0.0.1:8000/docs
-    uvicorn.run(app, host="0.0.0.0", port=8000, log_config=default_log_configuration)
+    # uvicorn.run(app, host="0.0.0.0", port=8000, log_config=default_log_configuration)
+    uvicorn.run(app, host="0.0.0.0", port=8000)

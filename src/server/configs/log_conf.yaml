@@ -15,7 +15,7 @@ handlers:
   default_file:
     formatter: default
     class: logging.FileHandler
-    filename: ./logs/default_log.log
+    filename: "${LOG_PATH:./logs}/default_log.log"
   access:
     formatter: access
     class: logging.StreamHandler
@@ -23,7 +23,7 @@ handlers:
   access_file:
     formatter: default
     class: logging.FileHandler
-    filename: ./logs/access_log.log
+    filename: "${LOG_PATH:./logs}/access_log.log"
 loggers:
   uvicorn.error:
     level: INFO

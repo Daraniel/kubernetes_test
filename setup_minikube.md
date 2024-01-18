@@ -212,6 +212,14 @@ kubectl apply -f ./kubernetes_resources/deploy_and_serve.yaml
 
 Please note that in this file, we are using the LoadBalancer service type instead of the NodePort used in the
 stand-alone service file.
+Also, there is another all-in-one config file (`./kubernetes_resources/deploy_and_serve_with_mysql.yaml`).
+This file contains all three types of services mentioned above and is designed to be used with MYSQL server (instead of
+SQLLite) and uses persistent storage for logging. To execute it, the MYSQL Kubernetes server should also be executed.
+Both of them can be executed by running the following command:
+
+```bash
+kubectl apply -k ./kubernetes_resources
+```
 
 Now you can get Ingresses, please note that it might take some time for the Ingress instance to start and get an
 address:

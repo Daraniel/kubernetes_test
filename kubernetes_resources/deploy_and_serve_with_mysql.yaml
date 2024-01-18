@@ -1,16 +1,16 @@
-#apiVersion: v1
-#kind: PersistentVolumeClaim
-#metadata:
-#  name: fastapi-server-claim
-#  labels:
-#    app: fastapi-server
-#spec:
-#  accessModes:
-#    - ReadWriteOnce
-#  resources:
-#    requests:
-#      storage: 10Mi
-#---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fastapi-server-claim
+  labels:
+    app: fastapi-server
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Mi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -45,13 +45,21 @@ spec:
                   key: password
             - name: DATABASE_CONNECTION_STRING
               value: "mysql+mysqlconnector://fastapi_user:$(MYSQL_PASSWORD)@fastapi-mysql:3306/fastapi"
-#          volumeMounts:
-#            - name: fastapi-server-persistent-storage
-#              mountPath: ./logs
-#      volumes:
-#        - name: fastapi-server-persistent-storage
-#          persistentVolumeClaim:
-#            claimName: fastapi-server-claim
+            - name: PODNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: LOG_PATH
+              value: "./logs/$(PODNAME)"
+            - name: LOG_CFG
+              value: "./configs/log_conf.yaml"
+          volumeMounts:
+            - name: fastapi-server-persistent-storage
+              mountPath: ./app/logs
+      volumes:
+        - name: fastapi-server-persistent-storage
+          persistentVolumeClaim:
+            claimName: fastapi-server-claim
 ---
 apiVersion: v1
 kind: Service
