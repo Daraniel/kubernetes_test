@@ -10,14 +10,15 @@
 A sample Python FastAPI application that has user management system and user inventory and can be deployed with Docker
 or Kubernetes. It uses SQLAlchemy to work with both SQLLite (direct execution and execution with docker compose) and
 MYSQL (In Kubernetes) databases. The repository contains an auto formatter using Black and will run the tests on pull
-request and push. The code also uses persistent volumes for its logs.
+request and push. The code also uses persistent volumes for its logs. This documentation is also available
+at https://daraniel.github.io/kubernetes_test/ using GitHub Pages.
 
 This project uses pre-commit hooks to make sure code is formatted correctly, to set it up, install pre-commit (either
 run `pip/conda install pre-commit` or install the project dependencies `src/server/requirements.txt` file). After
 installing pre-commit, install it on the current project by running `pre-commit install`. It will then run the
 pre-commit script everytime something gets committed. If wanted, pre-commit can also be executed against all files by
 running the `pre-commit run --all-files` command. Please note that the first run of pre-commit might take some time as
-it needs to setup some codes.
+it needs to set up some codes.
 
 ## Project Parameters
 
