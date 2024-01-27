@@ -17,8 +17,11 @@ from sqlalchemy.exc import DatabaseError
 from typing_extensions import Annotated
 from utils.data_types import InventoryItem, Token, User
 from utils.database_manager import DatabaseManager, get_db
-from utils.user_manager import (get_current_active_user, get_password_hash,
-                                get_user_access_token)
+from utils.user_manager import (
+    get_current_active_user,
+    get_password_hash,
+    get_user_access_token,
+)
 
 logger = logging.getLogger(__name__)
 

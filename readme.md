@@ -12,17 +12,24 @@ or Kubernetes. It uses SQLAlchemy to work with both SQLLite (direct execution an
 MYSQL (In Kubernetes) databases. The repository contains an auto formatter using Black and will run the tests on pull
 request and push. The code also uses persistent volumes for its logs.
 
+This project uses pre-commit hooks to make sure code is formatted correctly, to set it up, install pre-commit (either
+run `pip/conda install pre-commit` or install the project dependencies `src/server/requirements.txt` file). After
+installing pre-commit, install it on the current project by running `pre-commit install`. It will then run the
+pre-commit script everytime something gets committed. If wanted, pre-commit can also be executed against all files by
+running the `pre-commit run --all-files` command. Please note that the first run of pre-commit might take some time as
+it needs to setup some codes.
+
 ## Project Parameters
 
 The following environment variables can be set to configure the project:
 
-| Name                        | Description                                                                             | Default Value                                                    |
-|-----------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------|
-| ACCESS_TOKEN_EXPIRE_MINUTES | The number of minutes before an access token expires.                                   | 30                                                               |
-| SECRET_KEY                  | A secret key used for encrypting and decrypting data.                                   | 09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7 |
-| DATABASE_CONNECTION_STRING  | The connection string for the MySQL database.                                           | sqlite:///./database.db                                          |
-| LOG_CFG                     | The path to the log configuration file.                                                 | ./configs/log_conf.yaml                                          |
-| LOG_PATH                    | The path to the directory where log files will be stored, used in the default log_conf. | ./logs                                                           |
+| Name                        | Description                                                                             | Default Value           |
+|-----------------------------|-----------------------------------------------------------------------------------------|-------------------------|
+| ACCESS_TOKEN_EXPIRE_MINUTES | The number of minutes before an access token expires.                                   | 30                      |
+| SECRET_KEY                  | A secret key used for encrypting and decrypting data.                                   | a random value          |
+| DATABASE_CONNECTION_STRING  | The connection string for the MySQL database.                                           | sqlite:///./database.db |
+| LOG_CFG                     | The path to the log configuration file.                                                 | ./configs/log_conf.yaml |
+| LOG_PATH                    | The path to the directory where log files will be stored, used in the default log_conf. | ./logs                  |
 
 ## Docker setup
 
